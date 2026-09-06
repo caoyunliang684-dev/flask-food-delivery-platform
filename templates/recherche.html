@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Recherche</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+    <h1>搜索你喜欢的餐馆</h1>
+    </header>
+    <a href="{{url_for('client')}}"><button style=" margin-top: 20px;">返回</button></a>
+    <form action="/recherche" method="post">
+        <label for="Nom">餐馆名 :</label>
+        <input type="text" id="Nom" name="Nom">
+    
+        <label for="note">平均分 :</label>
+        <input type="text" id="note" name="note">
+
+        <label for="nombreavis">评论数 :</label>
+        <input type="text" id="nombreavis" name="nombreavis">
+
+        <label for="motclef">关键字 :</label>
+        <input type="text" id="motclef" name="motclef">
+    
+        <button type="submit">搜索</button>
+    </form>
+    {% if result %}
+    {% for i in result %}
+        <p>&bull;<a href=" /restaurant/{{i.idresto }}">欢迎选择 {{i.idresto}}，{{i.nom_resto}}</a></p>
+    {% endfor %}
+    {% endif %}
+        
+</body>
+</html>

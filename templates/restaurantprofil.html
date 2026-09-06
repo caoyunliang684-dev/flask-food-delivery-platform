@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurantprofil</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1>餐馆信息</h1>
+    </header>
+    <a href="{{url_for('restaur')}}"><button style=" margin-top: 20px;">返回</button></a>
+    <h2><a href="{{url_for('inforesto')}}">更改信息</a></h2>
+    <h2><a href="{{url_for('Changeroffre')}}">更改菜单</a></h2>
+</body>
+</html>

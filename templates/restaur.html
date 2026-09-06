@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1>{{message}}, {{nom}}</h1>
+        <h2>现在是 {{current_time}}</h2>
+    </header>
+    <h2><a href="{{ url_for('commanderesto') }}">查询订单</a></h2>
+    <h2><a href="{{ url_for('restaurantprofil') }}">餐馆信息</a></h2>
+    <form method="post" action="{{ url_for('logoutrestaurant') }}">
+        <button type="submit">登出</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Order</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header>
+        <h2>订单</h2>
+    </header>
+    <h2> 您的订单已经成功提交，总价为 {{count}}</h2>
+    <a href="{{url_for('recherche')}}"><button style="display: block; margin: 20px auto;">返回</button></a>
+</body>

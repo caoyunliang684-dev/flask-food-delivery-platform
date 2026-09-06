@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Recherche</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+
+
+        img {
+            max-width: 25%; 
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px; 
+        }
+
+       
+    </style>
+</head>
+<body>
+    <header>
+    <h1>菜单</h1>
+    </header>
+    <a href="{{url_for('recherche')}}"><button style=" margin-top: 20px;">返回</button></a>
+    <form action="/order/{{idresto}}" method="post">
+        <ul>
+           
+            <p style="text-align: left;"> {{ result1.nom_resto }}</p>
+            <p style="text-align: left;">{{ result1.adresse_resto }}</p>
+            <p style="text-align: left;">开门:{{ result1.horaire_ouv }}</p>
+            <p style="text-align: left;">关门:{{ result1.horaire_fer }}</p>
+            <p style="text-align: left;">特色:{{ result1.specialite }}</p>
+            <p style="text-align: left;">电话:{{ result1.tel_resto }}</p>
+            <p style="text-align: left;">城市:{{ result1.ville_insee  }}</p>
+            {% if result2 %}
+            {% for j in result2 %}
+            <li>
+                <h2 style="text-align: left;">{{j.email}} 评分:{{ j.note }}</h2>
+                <p style="text-align: left;">{{ j.commentaire }}</p>
+            </li>
+            {% endfor %}
+            {% endif %}
+            {% for i in result %}
+                <li>
+                    <h2 style="text-align: left;">{{ i.nom_plat }}</h2>
+                    <p style="text-align: left;">{{ i.description }}</p>
+                    <img src="{{ i.photo }}" alt="{{ i.nom_plat }}">
+                    <label for="nom_{{ i.nom_plat }}">价格 : {{i.prix}}</label>
+                    <input type="number" id="nom_{{ i.nom_plat }}" name="{{i.nom_plat}}" min="0" value="0">
+                </li>
+            {% endfor %}
+        </ul>
+        <button type="submit">提交订单</button>
+    </form>
+</body>
+</html>

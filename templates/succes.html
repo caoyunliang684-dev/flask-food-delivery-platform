@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Succès</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        setTimeout(function() {
+            window.location.href = "{{ url_for('accueilclient') }}";
+        }, 5000); 
+    </script>
+</head>
+<body>
+    <header><h1>成功</h1></header>
+    <p>您已经成功注册 ！</p>
+    <br>
+    <p>等待几秒自动返回登陆界面</p>
+</body>
+</html>

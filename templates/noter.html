@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>noter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1>评价订单</h1>
+    </header>
+    <a href="{{url_for('clientprofil')}}"><button style=" margin-top: 20px;">返回</button></a>
+    {% if result_dict %}
+    {% for idcommande, data in result_dict.items() %}
+    {% set a = 0 %}
+    <i style="text-align: left;">订单ID: {{ idcommande }}</i>
+    {% set first_record = data['items'][0] %}
+    <p style="text-align: left;">
+        餐馆ID: {{ first_record['idresto'] }} |
+        订单日期: {{ first_record['temps_com'] }} - {{ first_record['temps_fin'] }}
+    </p>
+    <ul>
+        {% for record in data['items'] %}
+            <li>
+                内容: {{ record['nom_plat'] }} |
+                数量: {{ record['quantite'] }} |
+                价格 : {{ record['prix']}}
+            </li>
+        {% endfor %}
+    </ul>
+    <p style="text-align: left;">总价 : {{ data['prixtotal'] }}</p>
+    <form method="post" action="{{ url_for('noter')}}">
+        <label for="noter">评分:</label>
+        <select id="noter" name="noter">
+            {% for i in range(1, 11) %}
+              <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+          </select>
+        <label for="comment">评论:</label>
+        <input type = "text" id = "comment" name = "comment" > 
+        <input type="hidden" name="idcommande" value="{{ idcommande }}">
+        <input type="hidden" name="idresto" value="{{ first_record['idresto'] }}">
+        <button type="submit" value="Confirmer">确认</button>
+    </form>
+{% endfor %}
+{% else %}
+    <p>{{ message }}</p>
+{% endif %}
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Clientprofil</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1>个人信息</h1>
+    </header>
+    <a href="{{url_for('client')}}"><button style=" margin-top: 20px;">返回</button></a>
+    <h2><a href="{{url_for('Historique')}}">订单历史</a></h2>
+    <h2><a href="{{url_for('annuler')}}">取消订单</a></h2>
+    <h2><a href="{{url_for('noter')}}">评价订单</a></h2>
+    <h2><a href="{{url_for('fidelite')}}">信赖度</a></h2>
+    <h2><a href="{{url_for('parraine')}}">推荐</a></h2>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Accueilclient</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+      
+      form {
+        max-width: 400px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+}
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Enjoy!</h1>
+        <h2>您最贴心的外卖平台！</h2>
+    </header>
+
+    <i>欢迎来到 Enjoy 平台 !</i>
+    {% if message is not none %}
+    <p>{{ message }}</p>
+    {% endif %}
+    <form action="/accueilclient" method="post">
+        <label for="email">邮箱 :</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">密码 :</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">登录</button>
+
+        <p>还没有账户？ <a href="/register">注册</a></p>
+    </form>
+
+</body>
+
+</html>

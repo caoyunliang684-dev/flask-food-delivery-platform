@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Livreur</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1>{{message}},{{prenom}} {{nom}}</h1>
+        <h2>现在是 {{current_time}}</h2>
+    </header>
+    <h2><a href="{{ url_for('livreurchoisir') }}">查找订单</a></h2>
+    <h2><a href="{{ url_for('choisirville') }}">选择城市</a></h2>
+    <form method="post" action="{{ url_for('logoutliv') }}">
+        <button type="submit" >登出</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>    
+        form {
+            background-color: #fff;
+            padding: 50px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .required::after {
+            content: '*';
+            color: rgb(255, 0, 0);
+        }
+    </style>
+</head>
+<header>
+    <h1>注册</h1>
+</header>
+<body>
+    {% if message != None %} 
+    <p style = "color: red;"> {{message}}</p>
+    {% endif %}
+    <form action="/register/verifier" method="post">
+        <label for="prenom" class="required">名 :</label>
+        <input type="text" id="prenom" name="prenom" required>
+
+        <label for="nom" class="required">姓 :</label>
+        <input type="text" id="nom" name="nom" required>
+
+        <label for="email" class="required">邮箱 :</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="telephone" class="required">电话 :</label>
+        <input type="tel" id="telephone" name="telephone" required>
+
+        <label for="motDePasse" class="required">密码 :</label>
+        <input type="password" id="motDePasse" name="motDePasse" required>
+
+        <label for="confirmationMotDePasse" class="required">确认密码:</label>
+        <input type="password" id="confirmationMotDePasse" name="confirmationMotDePasse" required>
+
+        <label for="villeInsee" class="required">城市 :</label>
+        <input type="text" id="villeInsee" name="villeInsee" required>
+
+        <label for="adresse" class="required">地址 :</label>
+        <input type="text" id="adresse" name="adresse" required>
+
+        <label for="parraine">推荐人 :</label>
+        <input type="text" id="parraine" name="parraine">
+
+        <button type="submit">注册</button>
+    </form>
+
+</body>
+
+</html>

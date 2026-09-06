@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>List of Commands</title>
+</head>
+<body>
+    <header>
+    <h2>订单列表</h2>
+    </header>
+    <form action="{{ url_for('enfinlivrer') }}" method="post">
+        
+                    <p>餐馆地址 : {{result1.adresse_resto}} </p>
+                    <p>客户地址 : {{result.adresse}}</p>
+                    <tr>
+                        
+                        <td>
+                            <button type="submit" name="idcommande" value="{{idcommande}}" style="display: block; margin: 20px auto;">完成配送</button>
+                        </td>
+                    </tr>
+         
+    </form>
+</body>
+</html>

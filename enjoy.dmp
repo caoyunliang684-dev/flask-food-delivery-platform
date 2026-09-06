@@ -1,0 +1,919 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 16.1
+-- Dumped by pg_dump version 16.1
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: projet; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA projet;
+
+
+ALTER SCHEMA projet OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: choisir; Type: TABLE; Schema: projet; Owner: postgres
+--
+
+CREATE TABLE projet.choisir (
+    idcommande integer NOT NULL,
+    nom_plat character varying(255) NOT NULL,
+    quantite integer NOT NULL
+);
+
+
+ALTER TABLE projet.choisir OWNER TO postgres;
+
+--
+-- Name: client; Type: TABLE; Schema: projet; Owner: postgres
+--
+
+CREATE TABLE projet.client (
+    email character varying(255) NOT NULL,
+    nom character varying(255) NOT NULL,
+    prenom character varying(255) NOT NULL,
+    num_tel character varying(10) NOT NULL,
+    mdp character varying(255) NOT NULL,
+    adresse character varying(255) NOT NULL,
+    ville_insee character varying(5) NOT NULL,
+    parraine character varying(255)
+);
+
+
+ALTER TABLE projet.client OWNER TO postgres;
+
+--
+-- Name: commande; Type: TABLE; Schema: projet; Owner: postgres
+--
+
+CREATE TABLE projet.commande (
+    idcommande integer NOT NULL,
+    temps_com timestamp without time zone NOT NULL,
+    temps_fin timestamp without time zone,
+    idresto integer NOT NULL,
+    email character varying(255)
+);
+
+
+ALTER TABLE projet.commande OWNER TO postgres;
+
+--
+-- Name: commande_idcommande_seq; Type: SEQUENCE; Schema: projet; Owner: postgres
+--
+
+CREATE SEQUENCE projet.commande_idcommande_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE projet.commande_idcommande_seq OWNER TO postgres;
+
+--
+-- Name: commande_idcommande_seq; Type: SEQUENCE OWNED BY; Schema: projet; Owner: postgres
+--
+
+ALTER SEQUENCE projet.commande_idcommande_seq OWNED BY projet.commande.idcommande;
+
+
+--
+-- Name: commande_idresto_seq; Type: SEQUENCE; Schema: projet; Owner: postgres
+--
+
+CREATE SEQUENCE projet.commande_idresto_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE projet.commande_idresto_seq OWNER TO postgres;
+
+--
+-- Name: commande_idresto_seq; Type: SEQUENCE OWNED BY; Schema: projet; Owner: postgres
+--
+
+ALTER SEQUENCE projet.commande_idresto_seq OWNED BY projet.commande.idresto;
+
+
+--
+-- Name: evaluation; Type: TABLE; Schema: projet; Owner: postgres
+--
+
+CREATE TABLE projet.evaluation (
+    idresto integer NOT NULL,
+    email character varying(255) NOT NULL,
+    note integer NOT NULL,
+    commentaire character varying(255),
+    idcommande integer NOT NULL,
+    CONSTRAINT check_note CHECK (((note > 0) AND (note < 11)))
+);
+
+
+ALTER TABLE projet.evaluation OWNER TO postgres;
+
+--
+-- Name: evoluation_idresto_seq; Type: SEQUENCE; Schema: projet; Owner: postgres
+--
+
+CREATE SEQUENCE projet.evoluation_idresto_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE projet.evoluation_idresto_seq OWNER TO postgres;
+
+--
+-- Name: evoluation_idresto_seq; Type: SEQUENCE OWNED BY; Schema: projet; Owner: postgres
+--
+
+ALTER SEQUENCE projet.evoluation_idresto_seq OWNED BY projet.evaluation.idresto;
+
+
+--
+-- Name: livrer; Type: TABLE; Schema: projet; Owner: postgres
+--
+
+CREATE TABLE projet.livrer (
+    matricule integer NOT NULL,
+    idcommande integer NOT NULL
+);
+
+
+ALTER TABLE projet.livrer OWNER TO postgres;
+
+--
+-- Name: livrer_idcommande_seq; Type: SEQUENCE; Schema: projet; Owner: postgres
+--
+
+CREATE SEQUENCE projet.livrer_idcommande_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE projet.livrer_idcommande_seq OWNER TO postgres;
+
+--
+-- Name: livrer_idcommande_seq; Type: SEQUENCE OWNED BY; Schema: projet; Owner: postgres
+--
+
+ALTER SEQUENCE projet.livrer_idcommande_seq OWNED BY projet.livrer.idcommande;
+
+
+--
+-- Name: livrer_matricule_seq; Type: SEQUENCE; Schema: projet; Owner: postgres
+--
+
+CREATE SEQUENCE projet.livrer_matricule_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE projet.livrer_matricule_seq OWNER TO postgres;
+
+--
+-- Name: livrer_matricule_seq; Type: SEQUENCE OWNED BY; Schema: projet; Owner: postgres
+--
+
+ALTER SEQUENCE projet.livrer_matricule_seq OWNED BY projet.livrer.matricule;
+
+
+--
+-- Name: livreur; Type: TABLE; Schema: projet; Owner: postgres
+--
+
+CREATE TABLE projet.livreur (
+    matricule integer NOT NULL,
+    nom_l character varying(255) NOT NULL,
+    prenom_l character varying(255) NOT NULL,
+    mdp_l character varying(255) NOT NULL,
+    etat character varying(10) NOT NULL,
+    CONSTRAINT check_etat CHECK (((etat)::text = ANY ((ARRAY['ON'::character varying, 'OFF'::character varying, 'Livrer'::character varying])::text[])))
+);
+
+
+ALTER TABLE projet.livreur OWNER TO postgres;
+
+--
+-- Name: livreur_matricule_seq; Type: SEQUENCE; Schema: projet; Owner: postgres
+--
+
+CREATE SEQUENCE projet.livreur_matricule_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE projet.livreur_matricule_seq OWNER TO postgres;
+
+--
+-- Name: livreur_matricule_seq; Type: SEQUENCE OWNED BY; Schema: projet; Owner: postgres
+--
+
+ALTER SEQUENCE projet.livreur_matricule_seq OWNED BY projet.livreur.matricule;
+
+
+--
+-- Name: offre; Type: TABLE; Schema: projet; Owner: postgres
+--
+
+CREATE TABLE projet.offre (
+    idresto integer NOT NULL,
+    nom_plat character varying(255) NOT NULL,
+    prix numeric(4,2) NOT NULL
+);
+
+
+ALTER TABLE projet.offre OWNER TO postgres;
+
+--
+-- Name: offre_idresto_seq; Type: SEQUENCE; Schema: projet; Owner: postgres
+--
+
+CREATE SEQUENCE projet.offre_idresto_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE projet.offre_idresto_seq OWNER TO postgres;
+
+--
+-- Name: offre_idresto_seq; Type: SEQUENCE OWNED BY; Schema: projet; Owner: postgres
+--
+
+ALTER SEQUENCE projet.offre_idresto_seq OWNED BY projet.offre.idresto;
+
+
+--
+-- Name: plat; Type: TABLE; Schema: projet; Owner: postgres
+--
+
+CREATE TABLE projet.plat (
+    nomplat character varying(255) NOT NULL,
+    description character varying(255) NOT NULL,
+    photo character varying(255)
+);
+
+
+ALTER TABLE projet.plat OWNER TO postgres;
+
+--
+-- Name: restaur; Type: TABLE; Schema: projet; Owner: postgres
+--
+
+CREATE TABLE projet.restaur (
+    idresto integer NOT NULL,
+    mdp character varying(255) NOT NULL
+);
+
+
+ALTER TABLE projet.restaur OWNER TO postgres;
+
+--
+-- Name: restaurant; Type: TABLE; Schema: projet; Owner: postgres
+--
+
+CREATE TABLE projet.restaurant (
+    idresto integer NOT NULL,
+    nom_resto character varying(255) NOT NULL,
+    adresse_resto character varying(255) NOT NULL,
+    horaire_ouv time without time zone NOT NULL,
+    horaire_fer time without time zone NOT NULL,
+    specialite character varying(255) NOT NULL,
+    tel_resto character varying(10) NOT NULL,
+    ville_insee character varying(5) NOT NULL
+);
+
+
+ALTER TABLE projet.restaurant OWNER TO postgres;
+
+--
+-- Name: restaurant_idresto_seq; Type: SEQUENCE; Schema: projet; Owner: postgres
+--
+
+CREATE SEQUENCE projet.restaurant_idresto_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE projet.restaurant_idresto_seq OWNER TO postgres;
+
+--
+-- Name: restaurant_idresto_seq; Type: SEQUENCE OWNED BY; Schema: projet; Owner: postgres
+--
+
+ALTER SEQUENCE projet.restaurant_idresto_seq OWNED BY projet.restaurant.idresto;
+
+
+--
+-- Name: travaille; Type: TABLE; Schema: projet; Owner: postgres
+--
+
+CREATE TABLE projet.travaille (
+    matricule integer NOT NULL,
+    ville_insee character varying(5) NOT NULL
+);
+
+
+ALTER TABLE projet.travaille OWNER TO postgres;
+
+--
+-- Name: travaille_matricule_seq; Type: SEQUENCE; Schema: projet; Owner: postgres
+--
+
+CREATE SEQUENCE projet.travaille_matricule_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE projet.travaille_matricule_seq OWNER TO postgres;
+
+--
+-- Name: travaille_matricule_seq; Type: SEQUENCE OWNED BY; Schema: projet; Owner: postgres
+--
+
+ALTER SEQUENCE projet.travaille_matricule_seq OWNED BY projet.travaille.matricule;
+
+
+--
+-- Name: ville; Type: TABLE; Schema: projet; Owner: postgres
+--
+
+CREATE TABLE projet.ville (
+    insee character varying(5) NOT NULL,
+    nom character varying(255) NOT NULL
+);
+
+
+ALTER TABLE projet.ville OWNER TO postgres;
+
+--
+-- Name: commande idcommande; Type: DEFAULT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.commande ALTER COLUMN idcommande SET DEFAULT nextval('projet.commande_idcommande_seq'::regclass);
+
+
+--
+-- Name: commande idresto; Type: DEFAULT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.commande ALTER COLUMN idresto SET DEFAULT nextval('projet.commande_idresto_seq'::regclass);
+
+
+--
+-- Name: evaluation idresto; Type: DEFAULT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.evaluation ALTER COLUMN idresto SET DEFAULT nextval('projet.evoluation_idresto_seq'::regclass);
+
+
+--
+-- Name: livrer matricule; Type: DEFAULT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.livrer ALTER COLUMN matricule SET DEFAULT nextval('projet.livrer_matricule_seq'::regclass);
+
+
+--
+-- Name: livrer idcommande; Type: DEFAULT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.livrer ALTER COLUMN idcommande SET DEFAULT nextval('projet.livrer_idcommande_seq'::regclass);
+
+
+--
+-- Name: livreur matricule; Type: DEFAULT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.livreur ALTER COLUMN matricule SET DEFAULT nextval('projet.livreur_matricule_seq'::regclass);
+
+
+--
+-- Name: offre idresto; Type: DEFAULT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.offre ALTER COLUMN idresto SET DEFAULT nextval('projet.offre_idresto_seq'::regclass);
+
+
+--
+-- Name: restaurant idresto; Type: DEFAULT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.restaurant ALTER COLUMN idresto SET DEFAULT nextval('projet.restaurant_idresto_seq'::regclass);
+
+
+--
+-- Name: travaille matricule; Type: DEFAULT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.travaille ALTER COLUMN matricule SET DEFAULT nextval('projet.travaille_matricule_seq'::regclass);
+
+
+--
+-- Data for Name: choisir; Type: TABLE DATA; Schema: projet; Owner: postgres
+--
+
+COPY projet.choisir (idcommande, nom_plat, quantite) FROM stdin;
+5	Pomme de terre	3
+4	Pomme de terre	10
+3	Pomme de terre	5
+2	Pomme de terre	1
+1	Pork	1
+1	Pomme de terre	2
+6	Pomme de terre	4
+7	Pork	30
+7	Pomme de terre	10
+8	Pork	2
+8	Pomme de terre	3
+9	Pomme de terre	100
+\.
+
+
+--
+-- Data for Name: client; Type: TABLE DATA; Schema: projet; Owner: postgres
+--
+
+COPY projet.client (email, nom, prenom, num_tel, mdp, adresse, ville_insee, parraine) FROM stdin;
+2@gmail.com	Yang	Shuoliang	0607062684	pbkdf2:sha256:260000$Hxrxi4v5wxjuuFCj$87dba7d6841312d19529bea5d3dec01d42202482226e572e1705c9ffac37e34b	222	01284	\N
+1@gmail.com	CAO	Yunliang	0607062683	pbkdf2:sha256:260000$Hxrxi4v5wxjuuFCj$87dba7d6841312d19529bea5d3dec01d42202482226e572e1705c9ffac37e34b	111	01298	\N
+9@gm	eeeee	tttg	2039586980	pbkdf2:sha256:260000$877dDRZxbsC9BR9b$5ce853fb171ab5884030a9c1a47c8f2e2da03b4fc5adda299663061c869e6de2	eeeeeeee	01298	1@gmail.com
+jesus.nazareth@orange.fr	Dupuis	Jean	0648950937	pbkdf2:sha256:260000$8mhHxbmCOU3XMUF3$b281b45bab88d14a5fb5862368ba0145926824ece0e25b20cbd1126855effd90	2 rue des coloquintes	01284	\N
+\.
+
+
+--
+-- Data for Name: commande; Type: TABLE DATA; Schema: projet; Owner: postgres
+--
+
+COPY projet.commande (idcommande, temps_com, temps_fin, idresto, email) FROM stdin;
+4	2023-12-18 16:00:00	\N	4	1@gmail.com
+2	2023-11-10 08:20:00	2023-11-10 08:30:00	1	1@gmail.com
+1	2023-11-10 08:00:00	2023-11-10 08:10:00	1	1@gmail.com
+6	2023-12-18 22:32:03	\N	4	1@gmail.com
+3	2023-11-11 13:00:00	2023-11-11 13:10:00	3	1@gmail.com
+5	2023-12-18 16:00:00	2023-12-18 23:20:39	3	1@gmail.com
+7	2023-12-19 11:02:52	2023-12-19 11:03:40	1	9@gm
+8	2023-12-19 11:06:04	2023-12-19 11:08:49	1	9@gm
+9	2023-12-19 17:34:33	2023-12-19 17:37:48	2	jesus.nazareth@orange.fr
+\.
+
+
+--
+-- Data for Name: evaluation; Type: TABLE DATA; Schema: projet; Owner: postgres
+--
+
+COPY projet.evaluation (idresto, email, note, commentaire, idcommande) FROM stdin;
+1	1@gmail.com	9	tres bien	1
+1	9@gm	1	good	7
+\.
+
+
+--
+-- Data for Name: livrer; Type: TABLE DATA; Schema: projet; Owner: postgres
+--
+
+COPY projet.livrer (matricule, idcommande) FROM stdin;
+3	4
+1	5
+1	8
+2	9
+\.
+
+
+--
+-- Data for Name: livreur; Type: TABLE DATA; Schema: projet; Owner: postgres
+--
+
+COPY projet.livreur (matricule, nom_l, prenom_l, mdp_l, etat) FROM stdin;
+3	Cui	Xiang	pbkdf2:sha256:260000$Hxrxi4v5wxjuuFCj$87dba7d6841312d19529bea5d3dec01d42202482226e572e1705c9ffac37e34b	Livrer
+2	Yang	Shuo	pbkdf2:sha256:260000$Hxrxi4v5wxjuuFCj$87dba7d6841312d19529bea5d3dec01d42202482226e572e1705c9ffac37e34b	OFF
+1	CAO	Yun	pbkdf2:sha256:260000$Hxrxi4v5wxjuuFCj$87dba7d6841312d19529bea5d3dec01d42202482226e572e1705c9ffac37e34b	ON
+\.
+
+
+--
+-- Data for Name: offre; Type: TABLE DATA; Schema: projet; Owner: postgres
+--
+
+COPY projet.offre (idresto, nom_plat, prix) FROM stdin;
+2	Pomme de terre	5.00
+3	Pork	40.00
+1	Pork	30.00
+1	Pomme de terre	20.00
+4	Pomme de terre	14.00
+\.
+
+
+--
+-- Data for Name: plat; Type: TABLE DATA; Schema: projet; Owner: postgres
+--
+
+COPY projet.plat (nomplat, description, photo) FROM stdin;
+Pomme de terre	111	https://th.bing.com/th/id/R.2110a82cf087245d0bc349f136e8c6c7?rik=gRXTMpomUvBp2g&pid=ImgRaw&r=0
+Pork	222	https://th.bing.com/th/id/OIP.2VlAkYg9n2Vtjpoe4TNvSwHaE7?rs=1&pid=ImgDetMain
+\.
+
+
+--
+-- Data for Name: restaur; Type: TABLE DATA; Schema: projet; Owner: postgres
+--
+
+COPY projet.restaur (idresto, mdp) FROM stdin;
+4	pbkdf2:sha256:260000$Hxrxi4v5wxjuuFCj$87dba7d6841312d19529bea5d3dec01d42202482226e572e1705c9ffac37e34b
+3	pbkdf2:sha256:260000$Hxrxi4v5wxjuuFCj$87dba7d6841312d19529bea5d3dec01d42202482226e572e1705c9ffac37e34b
+2	pbkdf2:sha256:260000$Hxrxi4v5wxjuuFCj$87dba7d6841312d19529bea5d3dec01d42202482226e572e1705c9ffac37e34b
+1	pbkdf2:sha256:260000$Hxrxi4v5wxjuuFCj$87dba7d6841312d19529bea5d3dec01d42202482226e572e1705c9ffac37e34b
+\.
+
+
+--
+-- Data for Name: restaurant; Type: TABLE DATA; Schema: projet; Owner: postgres
+--
+
+COPY projet.restaurant (idresto, nom_resto, adresse_resto, horaire_ouv, horaire_fer, specialite, tel_resto, ville_insee) FROM stdin;
+1	Asian	444	08:00:00	24:00:00	Pomme de terre	0607062589	01298
+2	Yang	333	08:00:00	24:00:00	Pomme de terre	0607062588	01284
+3	CAO	222	08:00:00	24:00:00	Pork	0607062587	01298
+4	EEEE	111	08:00:00	16:00:00	Pomme de terre	0607062586	01298
+\.
+
+
+--
+-- Data for Name: travaille; Type: TABLE DATA; Schema: projet; Owner: postgres
+--
+
+COPY projet.travaille (matricule, ville_insee) FROM stdin;
+3	01298
+2	01284
+1	01422
+\.
+
+
+--
+-- Data for Name: ville; Type: TABLE DATA; Schema: projet; Owner: postgres
+--
+
+COPY projet.ville (insee, nom) FROM stdin;
+01298	Plagne
+01284	Ozan
+01422	Tossiat
+\.
+
+
+--
+-- Name: commande_idcommande_seq; Type: SEQUENCE SET; Schema: projet; Owner: postgres
+--
+
+SELECT pg_catalog.setval('projet.commande_idcommande_seq', 9, true);
+
+
+--
+-- Name: commande_idresto_seq; Type: SEQUENCE SET; Schema: projet; Owner: postgres
+--
+
+SELECT pg_catalog.setval('projet.commande_idresto_seq', 5, true);
+
+
+--
+-- Name: evoluation_idresto_seq; Type: SEQUENCE SET; Schema: projet; Owner: postgres
+--
+
+SELECT pg_catalog.setval('projet.evoluation_idresto_seq', 1, true);
+
+
+--
+-- Name: livrer_idcommande_seq; Type: SEQUENCE SET; Schema: projet; Owner: postgres
+--
+
+SELECT pg_catalog.setval('projet.livrer_idcommande_seq', 1, false);
+
+
+--
+-- Name: livrer_matricule_seq; Type: SEQUENCE SET; Schema: projet; Owner: postgres
+--
+
+SELECT pg_catalog.setval('projet.livrer_matricule_seq', 1, false);
+
+
+--
+-- Name: livreur_matricule_seq; Type: SEQUENCE SET; Schema: projet; Owner: postgres
+--
+
+SELECT pg_catalog.setval('projet.livreur_matricule_seq', 3, true);
+
+
+--
+-- Name: offre_idresto_seq; Type: SEQUENCE SET; Schema: projet; Owner: postgres
+--
+
+SELECT pg_catalog.setval('projet.offre_idresto_seq', 1, false);
+
+
+--
+-- Name: restaurant_idresto_seq; Type: SEQUENCE SET; Schema: projet; Owner: postgres
+--
+
+SELECT pg_catalog.setval('projet.restaurant_idresto_seq', 4, true);
+
+
+--
+-- Name: travaille_matricule_seq; Type: SEQUENCE SET; Schema: projet; Owner: postgres
+--
+
+SELECT pg_catalog.setval('projet.travaille_matricule_seq', 1, false);
+
+
+--
+-- Name: choisir choisir_pk; Type: CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.choisir
+    ADD CONSTRAINT choisir_pk PRIMARY KEY (idcommande, nom_plat);
+
+
+--
+-- Name: client client_pkey; Type: CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.client
+    ADD CONSTRAINT client_pkey PRIMARY KEY (email);
+
+
+--
+-- Name: commande commande_pkey; Type: CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.commande
+    ADD CONSTRAINT commande_pkey PRIMARY KEY (idcommande);
+
+
+--
+-- Name: livreur livreur_pkey; Type: CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.livreur
+    ADD CONSTRAINT livreur_pkey PRIMARY KEY (matricule);
+
+
+--
+-- Name: evaluation pk_evaluation; Type: CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.evaluation
+    ADD CONSTRAINT pk_evaluation PRIMARY KEY (idresto, email, idcommande);
+
+
+--
+-- Name: livrer pk_livrer; Type: CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.livrer
+    ADD CONSTRAINT pk_livrer PRIMARY KEY (matricule, idcommande);
+
+
+--
+-- Name: offre pk_offre; Type: CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.offre
+    ADD CONSTRAINT pk_offre PRIMARY KEY (idresto, nom_plat);
+
+
+--
+-- Name: travaille pk_travaille; Type: CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.travaille
+    ADD CONSTRAINT pk_travaille PRIMARY KEY (matricule, ville_insee);
+
+
+--
+-- Name: plat plat_pkey; Type: CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.plat
+    ADD CONSTRAINT plat_pkey PRIMARY KEY (nomplat);
+
+
+--
+-- Name: restaur restaur_pkey; Type: CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.restaur
+    ADD CONSTRAINT restaur_pkey PRIMARY KEY (idresto);
+
+
+--
+-- Name: restaurant restaurant_pkey; Type: CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.restaurant
+    ADD CONSTRAINT restaurant_pkey PRIMARY KEY (idresto);
+
+
+--
+-- Name: restaurant restaurant_tel_resto_key; Type: CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.restaurant
+    ADD CONSTRAINT restaurant_tel_resto_key UNIQUE (tel_resto);
+
+
+--
+-- Name: ville ville_pkey; Type: CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.ville
+    ADD CONSTRAINT ville_pkey PRIMARY KEY (insee);
+
+
+--
+-- Name: client client_parraine_fkey; Type: FK CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.client
+    ADD CONSTRAINT client_parraine_fkey FOREIGN KEY (parraine) REFERENCES projet.client(email);
+
+
+--
+-- Name: client client_ville_insee_fkey; Type: FK CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.client
+    ADD CONSTRAINT client_ville_insee_fkey FOREIGN KEY (ville_insee) REFERENCES projet.ville(insee);
+
+
+--
+-- Name: commande commande_email_fkey; Type: FK CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.commande
+    ADD CONSTRAINT commande_email_fkey FOREIGN KEY (email) REFERENCES projet.client(email);
+
+
+--
+-- Name: choisir commande_fkey; Type: FK CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.choisir
+    ADD CONSTRAINT commande_fkey FOREIGN KEY (idcommande) REFERENCES projet.commande(idcommande);
+
+
+--
+-- Name: evaluation evaluation_idcommande_fkey; Type: FK CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.evaluation
+    ADD CONSTRAINT evaluation_idcommande_fkey FOREIGN KEY (idcommande) REFERENCES projet.commande(idcommande) NOT VALID;
+
+
+--
+-- Name: evaluation evoluation_email_fkey; Type: FK CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.evaluation
+    ADD CONSTRAINT evoluation_email_fkey FOREIGN KEY (email) REFERENCES projet.client(email);
+
+
+--
+-- Name: evaluation evoluation_idresto_fkey; Type: FK CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.evaluation
+    ADD CONSTRAINT evoluation_idresto_fkey FOREIGN KEY (idresto) REFERENCES projet.restaurant(idresto);
+
+
+--
+-- Name: commande fk_idresto; Type: FK CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.commande
+    ADD CONSTRAINT fk_idresto FOREIGN KEY (idresto) REFERENCES projet.restaurant(idresto);
+
+
+--
+-- Name: restaurant fk_spec; Type: FK CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.restaurant
+    ADD CONSTRAINT fk_spec FOREIGN KEY (specialite) REFERENCES projet.plat(nomplat);
+
+
+--
+-- Name: restaurant fk_ville; Type: FK CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.restaurant
+    ADD CONSTRAINT fk_ville FOREIGN KEY (ville_insee) REFERENCES projet.ville(insee);
+
+
+--
+-- Name: restaur idresto_fkey; Type: FK CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.restaur
+    ADD CONSTRAINT idresto_fkey FOREIGN KEY (idresto) REFERENCES projet.restaurant(idresto);
+
+
+--
+-- Name: livrer livrer_idcommande_fkey; Type: FK CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.livrer
+    ADD CONSTRAINT livrer_idcommande_fkey FOREIGN KEY (idcommande) REFERENCES projet.commande(idcommande);
+
+
+--
+-- Name: livrer livrer_matricule_fkey; Type: FK CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.livrer
+    ADD CONSTRAINT livrer_matricule_fkey FOREIGN KEY (matricule) REFERENCES projet.livreur(matricule);
+
+
+--
+-- Name: choisir nomplat_fkey; Type: FK CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.choisir
+    ADD CONSTRAINT nomplat_fkey FOREIGN KEY (nom_plat) REFERENCES projet.plat(nomplat);
+
+
+--
+-- Name: offre offre_idresto_fkey; Type: FK CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.offre
+    ADD CONSTRAINT offre_idresto_fkey FOREIGN KEY (idresto) REFERENCES projet.restaurant(idresto);
+
+
+--
+-- Name: offre offre_nom_plat_fkey; Type: FK CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.offre
+    ADD CONSTRAINT offre_nom_plat_fkey FOREIGN KEY (nom_plat) REFERENCES projet.plat(nomplat);
+
+
+--
+-- Name: travaille travaille_matricule_fkey; Type: FK CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.travaille
+    ADD CONSTRAINT travaille_matricule_fkey FOREIGN KEY (matricule) REFERENCES projet.livreur(matricule);
+
+
+--
+-- Name: travaille travaille_ville_insee_fkey; Type: FK CONSTRAINT; Schema: projet; Owner: postgres
+--
+
+ALTER TABLE ONLY projet.travaille
+    ADD CONSTRAINT travaille_ville_insee_fkey FOREIGN KEY (ville_insee) REFERENCES projet.ville(insee);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

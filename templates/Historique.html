@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Historique</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1> 历史订单 </h1>
+    </header>
+    <a href="{{url_for('clientprofil')}}"><button style=" margin-top: 20px;">返回</button></a>
+    {% if result_dict %}
+    {% for idcommande, data in result_dict.items() %}
+    <i style="text-align: left;">订单 ID: {{ idcommande }}</i>
+    {% set first_record = data['items'][0] %}
+    <p style="text-align: left;">
+        餐馆 ID: {{ first_record['idresto'] }} |
+        订单日期: {{ first_record['temps_com'] }} - {{ first_record['temps_fin'] }}
+    </p>
+    <ul>
+        {% for record in data['items'] %}
+            <li>
+                内容: {{ record['nom_plat'] }} |
+                数量: {{ record['quantite'] }} |
+                价格 : {{ record['prix']}}
+            </li>
+        {% endfor %}
+    </ul>
+    <p style="text-align: left;">总价 : {{ data['prixtotal'] }}</p>
+{% endfor %}
+{% else %}
+    <p>{{ message }}</p>
+{% endif %}
+</body>
+</html>

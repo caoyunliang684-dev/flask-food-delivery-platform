@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>List of Commands</title>
+</head>
+<body>
+    <header>
+    <h2>订单列表</h2>
+    </header>
+    <a href="{{url_for('livreur')}}"><button style=" margin-top: 20px;margin-bottom: 20px;">返回</button></a>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>订单ID</th>
+                <th>餐馆ID</th>
+                <th>邮箱</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in result %}
+                <tr>
+                    <td><a href="{{ url_for('livreurcommande', idcommande=row[0]) }}">{{ row[0] }}</a></td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

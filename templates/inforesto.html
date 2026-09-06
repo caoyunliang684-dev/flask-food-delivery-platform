@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>inforesto</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1> 更改餐馆信息 </h1>
+    </header>
+    <a href=" {{url_for('restaurantprofil')}}"><button style=" margin-top: 20px;">返回</button></a >
+    <form method="post" action="{{url_for('inforesto')}}">
+        {% if not result %}
+            
+                <input type="radio" name="nom" value="nom_resto " style="width: 10%;margin-top: 10px;">   餐馆名称   <br>
+                <input type="radio" name="nom" value="adresse_resto " style="width: 10%;margin-top: 10px;">   餐馆地址   <br>
+                <input type="radio" name="nom" value="horaire_fer" style="width: 10%;margin-top: 10px;">    关门时间   <br>
+                <input type="radio" name="nom" value="horaire_ouv " style="width: 10%;margin-top: 10px;">   开门时间  <br>
+                <input type="radio" name="nom" value="specialite " style="width: 10%;margin-top: 10px;">    特色菜   <br>
+                <input type="radio" name="nom" value="tel_resto " style="width: 10%;margin-top: 10px;">    联系电话   <br>
+                <input type="radio" name="nom" value="ville_insee " style="width: 10%;margin-top: 10px;">   所在城市   <br>
+                <input type="text" name="text" id = 'text'>
+                <button type="submit">确认</button>
+        {% endif %}
+        {% if result %}
+            <p>完成!</p>
+        {% endif %}
+    </form>
+</body>

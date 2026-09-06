@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Fidelite</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+       .centre {
+            font-size: 3em; 
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1> 信赖度</h1>
+    </header>
+    <a href="{{url_for('clientprofil')}}"><button style=" margin-top: 20px;">返回</button></a>
+    <div class="centre"> {{ fidelite }} </div>
+</body>
+</html>
