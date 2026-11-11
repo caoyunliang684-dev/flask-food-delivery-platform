@@ -1,3 +1,4 @@
+import os
 import db
 from flask import Flask, render_template, request, redirect, url_for, session
 from datetime import datetime,time
@@ -5,7 +6,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 app = Flask(__name__)
-app.secret_key = '827868ee587c28d77682a8944cf3505a840bc1b3bd37d5e3e87e572b88b23e80'
+# Set FLASK_SECRET_KEY to keep sessions valid across restarts.
+app.secret_key = os.environ.get('FLASK_SECRET_KEY') or os.urandom(32)
 
 @app.route("/accueilclient",methods=['GET','POST'])
 def accueilclient():
